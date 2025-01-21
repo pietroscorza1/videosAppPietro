@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\helpers\UserHelper;
+use App\helpers\VideoHelpers;
+
 use App\Models\Video;
 use Illuminate\Database\Seeder;
 
@@ -14,13 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->withPersonalTeam()->create();
+        Video::truncate();
+        User::truncate();
 
+        VideoHelpers::createDefaultVideo();
+
+        User::factory(10)->withPersonalTeam()->create();
         Video::factory(10)->create();
-        /*User::factory()->withPersonalTeam()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);*/
 
     }
 }

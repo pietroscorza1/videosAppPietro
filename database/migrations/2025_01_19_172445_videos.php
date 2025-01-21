@@ -17,6 +17,7 @@ return new class extends Migration
             $table->timestamp('published_at');
             $table->unsignedBigInteger('next')->nullable();
             $table->unsignedBigInteger('series_id')->nullable();
+            $table->foreign('next')->references('id')->on('videos')->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -22,7 +22,7 @@ class VideoFactory extends Factory
             'description' => $this->faker->paragraph(),
             'url' => 'https://www.youtube.com/watch?v=' . $this->faker->regexify('[A-Za-z0-9]{11}'),
             'published_at' => $this->faker->dateTimeThisDecade(),
-            'next' => null,
+            'next' => $this->faker->optional()->randomElement(\App\Models\Video::pluck('id')->toArray()),
             'series_id' => null,
         ];
     }

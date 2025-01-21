@@ -7,7 +7,6 @@ class VideosAppLayout extends Component
 {
     public function __construct()
     {
-        // Aquí pots afegir dades o lògica personalitzada
     }
 
     public function render()
