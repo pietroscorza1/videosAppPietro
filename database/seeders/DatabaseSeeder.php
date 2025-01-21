@@ -8,6 +8,7 @@ use App\helpers\VideoHelpers;
 
 use App\Models\Video;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Config;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,6 +19,12 @@ class DatabaseSeeder extends Seeder
     {
         Video::truncate();
         User::truncate();
+
+        (new UserHelper)->createDefaultUsers([
+            'name' => Config::get('defaultusers.user.name'),
+            'email' => Config::get('defaultusers.user.email'),
+            'password' => Config::get('defaultusers.user.password'),
+        ]);
 
         VideoHelpers::createDefaultVideo();
 

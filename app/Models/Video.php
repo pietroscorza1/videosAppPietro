@@ -25,9 +25,14 @@ class Video extends Model
         return $this->belongsTo(Video::class, 'next');
     }
 
+
     public function getFormattedPublishedAtAttribute()
     {
-        return Carbon::parse($this->published_at)->translatedFormat('j \d\e F \d\e Y');
+        if (!$this->published_at) {
+            return 'Fecha no disponible';
+        }
+
+        return Carbon::parse($this->published_at)->locale('es')->translatedFormat('j \d\e F \d\e Y');
     }
 
     public function getFormattedForHumansPublishedAtAttribute()

@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('url');
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();
             $table->unsignedBigInteger('next')->nullable();
             $table->unsignedBigInteger('series_id')->nullable();
             $table->foreign('next')->references('id')->on('videos')->nullOnDelete();
