@@ -2,7 +2,6 @@
 namespace Tests\Feature\Videos;
 
 use App\helpers\VideoHelpers;
-use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

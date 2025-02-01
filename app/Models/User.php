@@ -31,6 +31,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'super_admin',
+
     ];
 
     /**
@@ -65,5 +67,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function testedBy()
+    {
+
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->super_admin;
     }
 }

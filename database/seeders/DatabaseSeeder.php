@@ -9,6 +9,7 @@ use App\helpers\VideoHelpers;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,16 +21,32 @@ class DatabaseSeeder extends Seeder
         Video::truncate();
         User::truncate();
 
-        (new UserHelper)->createDefaultUsers([
-            'name' => Config::get('defaultusers.user.name'),
-            'email' => Config::get('defaultusers.user.email'),
-            'password' => Config::get('defaultusers.user.password'),
-        ]);
+        UserHelper::createSuperadminUser();
+        UserHelper::createRegularUser();
+        UserHelper::createVideoManagerUser();
+
 
         VideoHelpers::createDefaultVideo();
 
         User::factory(10)->withPersonalTeam()->create();
         Video::factory(10)->create();
 
+    }
+    /**
+     * Define gates and permissions.
+     */
+    protected function defineGatesAndPermissions(): void
+    {
+        Gate::define('super-admin', function ($user) {
+            return $user->isSuperAdmin();
+        });
+
+        Gate::define('manage-videos', function ($user) {
+            return $user->hasRole('video-manager');
+        });
+
+        Gate::define('view-reports', function ($user) {
+            return $user->hasRole('regular-user');
+        });
     }
 }

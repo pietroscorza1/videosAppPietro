@@ -10,33 +10,64 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
 class UserHelper {
-    use PasswordValidationRules;
 
-    public function createDefaultUsers(array $user): User {
-        {
-            Validator::make($user, [
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required|string|min:8',
-            ])->validate();
-
-            return DB::transaction(function () use ($user) {
-                return tap(User::create([
-                    'name' => $user['name'],
-                    'email' => $user['email'],
-                    'password' => Hash::make($user['password']),
-                ]), function (User $user) {
-                    $this->createTeam($user);
-                });
-            });
-        }
-    }
-    protected function createTeam(User $user): void
+    public static function createDeaultUser()
     {
-        $user->ownedTeams()->save(Team::forceCreate([
+        $user = User::create([
+                'name' => config('defaultUsers.user.name'),
+                'email' => config('defaultUsers.user.email'),
+                'password' => Hash::make(config('defaultUsers.user.password')),
+                'super_admin' => true,
+            ]
+        );
+
+        UserHelper::add_personal_team($user);
+        return $user;
+    }
+
+    public static function createDeaultProfessor()
+    {
+        $professor = User::create([
+            'name' => config('defaultUsers.professor.name'),
+            'email' => config('defaultUsers.professor.email'),
+            'password' => Hash::make(config('defaultUsers.professor.password')),
+            'super_admin' => true,
+            ]
+        );
+
+        UserHelper::add_personal_team($professor);
+        return $professor;
+
+    }
+    public static function add_personal_team($user)
+    {
+        return Team::forceCreate([
+            "id" => 1,
             'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
+            'name' => $user->name."'s Team",
             'personal_team' => true,
-        ]));
+        ]);
+    }
+    public static function createRegularUser(): User {
+        return User::create([
+            'name' => 'Regular User',
+            'email' => 'regular@videosapp.com',
+            'password' => '123456789',
+        ]);
+    }
+
+    public static function createVideoManagerUser(): User {
+        return User::create([
+            'name' => 'Video Manager',
+            'email' => 'videosmanager@videosapp.com',
+            'password' => '123456789',
+        ]);
+    }
+    public static function createSuperadminUser(): User {
+        return User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@videosapp.com',
+            'password' => '123456789',
+        ]);
     }
 }

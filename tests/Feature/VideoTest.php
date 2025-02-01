@@ -1,18 +1,16 @@
 <?php
 
-namespace Tests\Feature\Videos;
+namespace Tests\Feature;
 
 use App\helpers\VideoHelpers;
-use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 class VideoTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function users_can_view_videos()
+    public function test_users_can_view_videos()
     {
         $video = VideoHelpers::createDefaultVideo();
 
