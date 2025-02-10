@@ -2,14 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\helpers\UserHelper;
-use App\helpers\VideoHelpers;
-
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,35 +16,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Video::truncate();
         User::truncate();
-
-        UserHelper::createSuperadminUser();
-        UserHelper::createRegularUser();
-        UserHelper::createVideoManagerUser();
+        Video::truncate();
+        Permission::truncate();
 
 
-        VideoHelpers::createDefaultVideo();
-
-        User::factory(10)->withPersonalTeam()->create();
         Video::factory(10)->create();
 
-    }
-    /**
-     * Define gates and permissions.
-     */
-    protected function defineGatesAndPermissions(): void
-    {
-        Gate::define('super-admin', function ($user) {
-            return $user->isSuperAdmin();
-        });
 
-        Gate::define('manage-videos', function ($user) {
-            return $user->hasRole('video-manager');
-        });
+        Permission::create(['name' => 'super_admin']);
+        Permission::create(['name' => 'video_manager']);
 
-        Gate::define('view-reports', function ($user) {
-            return $user->hasRole('regular-user');
-        });
+        $admin = UserHelper::create_superadmin_user();
+        $admin->assignRole('super_admin');
+
+        $manager = UserHelper::create_video_manager_user();
+        $manager->assignRole('video_manager');
+
+        UserHelper::create_regular_user();
+
     }
+
 }

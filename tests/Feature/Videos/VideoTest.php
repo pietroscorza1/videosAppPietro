@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Feature\Videos;
 
 use App\helpers\VideoHelpers;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,7 +23,7 @@ class VideoTest extends TestCase
     }
 
 
-    public function users_cannot_view_not_existing_videos()
+    public function test_users_cannot_view_not_existing_videos()
     {
         $response = $this->get(route('videos.show', 9999));
         $response->assertStatus(404);

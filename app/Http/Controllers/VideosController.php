@@ -22,4 +22,17 @@ class VideosController extends Controller
 
         return view('videos.show', compact('video'));
     }
+    public function index()
+    {
+
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->can('video-manager') || Auth::user()->can('super-admin')) {
+            return view('videos.index');
+        }
+        abort(403);
+    }
+
 }

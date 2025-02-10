@@ -12,7 +12,7 @@ class HelpersTest extends TestCase
 {
 use RefreshDatabase;
 
-    public function can_create_default_video_and_check_date_formatting()
+    public function test_can_create_default_video_and_check_date_formatting()
     {
         $video = VideoHelpers::createDefaultVideo();
 
@@ -50,7 +50,7 @@ public function test_can_create_default_user()
     }
 
 
-    public function can_create_default_video()
+    public function test_can_create_default_video()
     {
         $video = VideoHelpers::createDefaultVideo();
 
@@ -61,6 +61,7 @@ public function test_can_create_default_user()
             'published_at' => config('defaultVideo.video.published'),
         ]);
     }
+
 
 }
 

@@ -1,6 +1,5 @@
 @extends('layouts.videos-app-layout')
 
-@section('title', $video->title . ' - Videos App')
 
 @section('content')
 <!DOCTYPE html>
