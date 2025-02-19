@@ -20,7 +20,7 @@ use RefreshDatabase;
             'title' => config('defaultVideo.video.title'),
             'description' => config('defaultVideo.video.description'),
             'url' => config('defaultVideo.video.url'),
-            'published_at' => Carbon::now()->toDateTimeString(),
+            'published_at' => config('defaultVideo.video.published_at'),
         ]);
 
         $formattedDate = $video->formatted_published_at;
