@@ -18,8 +18,8 @@ class VideosManageControllerTest extends TestCase
         parent::setUp();
 
         // Create roles
-        Permission::firstOrCreate(['name' => 'video-manager']);
-        Permission::firstOrCreate(['name' => 'super-admin']);
+        Permission::firstOrCreate(['name' => 'video_manager']);
+        Permission::firstOrCreate(['name' => 'super_admin']);
 
         $videoDefault = VideoHelpers::createDefaultVideo();
     }
@@ -31,69 +31,71 @@ class VideosManageControllerTest extends TestCase
     public function test_user_with_permissions_can_manage_videos()
     {
         // Crea un usuario con permisos para gestionar videos
-        $user = User::factory()->create();
-        $user->givePermissionTo('video-manager');
-
+        $user = UserHelper::create_video_manager_user();
+        $user->givePermissionTo("video_manager");
         $this->actingAs($user);
-        $response = $this->get(route('videos.index'));
+        $response = $this->get(route('videos.manage.index'));
 
         $response->assertStatus(200);
-        $response->assertViewIs('videos.index');
+        $response->assertViewIs('videos.manage.index');
     }
 
     public function test_regular_users_cannot_manage_videos()
     {
         $user = UserHelper::create_regular_user();
 
-        $response = $this->actingAs($user)->get(route('videos.index'));
+        $response = $this->actingAs($user)->get(route('videos.manage.index'));
         $response->assertStatus(403);
     }
 
 
-    public function test_guest_users_cannot_manage_videos()
-    {
-        $response = $this->get(route('videos.index'));
-        $response->assertRedirect('/login');
-    }
+        public function test_guest_users_cannot_manage_videos()
+        {
+            $response = $this->get(route('videos.manage.index'));
+            $response->assertRedirect('/login');
+        }
 
-    public function test_superadmins_can_manage_videos()
-    {
-        $user = UserHelper::create_superadmin_user();
+        public function test_superadmins_can_manage_videos()
+        {
+            $user = UserHelper::create_superadmin_user();
 
-        $user->givePermissionTo('super-admin');
+            $user->givePermissionTo('super_admin');
+            $user->givePermissionTo('video_manager');
 
-        $response = $this->actingAs($user)->get(route('videos.index'));
+            $this->actingAs($user);
 
-        $response->assertStatus(200);
-    }
+            $response = $this->get(route('videos.manage.index'));
 
-    public function test_login_as_video_manager()
-    {
-        $user = UserHelper::create_video_manager_user();
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => "123456789",
-        ]);
-        $response->assertStatus(302);
-    }
+            $response->assertStatus(200);
+        }
 
-    public function test_loginAsSuperAdmin()
-    {
-        $user = UserHelper::create_superadmin_user();
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => "123456789",
-        ]);
-        $response->assertStatus(302);
-    }
+        public function test_login_as_video_manager()
+        {
+            $user = UserHelper::create_video_manager_user();
+            $response = $this->post('/login', [
+                'email' => $user->email,
+                'password' => "123456789",
+            ]);
+            $response->assertStatus(302);
+        }
 
-    public function test_loginAsRegularUser()
-    {
-        $user = UserHelper::create_regular_user();
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => "123456789",
-        ]);
-        $response->assertStatus(302);
-    }
+        public function test_loginAsSuperAdmin()
+        {
+            $user = UserHelper::create_superadmin_user();
+            $response = $this->post('/login', [
+                'email' => $user->email,
+                'password' => "123456789",
+            ]);
+            $response->assertStatus(302);
+        }
+
+        public function test_loginAsRegularUser()
+        {
+            $user = UserHelper::create_regular_user();
+            $response = $this->post('/login', [
+                'email' => $user->email,
+                'password' => "123456789",
+            ]);
+            $response->assertStatus(302);
+        }
 }

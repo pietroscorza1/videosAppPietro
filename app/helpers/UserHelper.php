@@ -47,43 +47,28 @@ class UserHelper {
     }
 
     public static function create_regular_user(): User {
-        $user = User::create([
+         return User::create([
             'name' => 'Regular User',
             'email' => 'regular@videosapp.com',
             'password' => Hash::make('123456789'),
         ]);
-
-        $role = Role::firstOrCreate(['name' => 'regular']);
-        $user->assignRole($role);
-
-        return $user;
     }
 
     public static function create_video_manager_user(): User {
-        $user = User::create([
+        return User::create([
             'name' => 'Video Manager',
             'email' => 'videosmanager@videosapp.com',
             'password' => Hash::make('123456789'),
         ]);
-
-        $role = Role::firstOrCreate(['name' => 'video manager']);
-        $user->assignRole($role);
-
-        return $user;
     }
 
     public static function create_superadmin_user(): User {
-        $user = User::create([
+        return User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin@videosapp.com',
             'password' => Hash::make('123456789'),
             'super_admin' => true,
         ]);
-
-        $role = Role::firstOrCreate(['name' => 'superadmin']);
-        $user->assignRole($role);
-
-        return $user;
     }
 
 

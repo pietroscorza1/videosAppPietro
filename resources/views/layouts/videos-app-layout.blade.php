@@ -17,7 +17,7 @@
                 <span class="text-2xl font-bold">Videos App</span>
             </a>
             <nav>
-                <ul class="flex space-x-4">
+                <ul class="flex space-x-4 items-center">
                     <li>
                         <a href="{{ route('home') }}" class="flex items-center hover:text-purple-200 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,13 +26,39 @@
                             Inici
                         </a>
                     </li>
+                    @auth
+                        <li class="text-white">
+                            {{ Auth::user()->email }}
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+                        @can('video_manager')
+                            <li>
+                                <a href="{{ route('videos.manage.index') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Manage Videos
+                                </a>
+                            </li>
+                        @endcan
+                    @else
+                        <li>
+                            <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Iniciar sesión
+                            </a>
+                        </li>
+                    @endauth
                 </ul>
             </nav>
         </div>
     </div>
 </header>
 
-<main class="bg-green-100 w-full flex-grow  py-8">
+<main class="bg-green-100 w-full flex-grow py-8">
     @yield('content')
 </main>
 

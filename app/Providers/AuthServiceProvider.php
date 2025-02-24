@@ -29,8 +29,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('super-admin');
         });
 
-        Gate::define('manage-videos', function (User $user) {
-            return $user->hasRole('manage-videos');
+        Gate::define('video_manager', function (User $user) {
+            return $user->hasRole('video_manager');
         });
     }
 

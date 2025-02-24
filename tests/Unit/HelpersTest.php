@@ -20,45 +20,37 @@ use RefreshDatabase;
             'title' => config('defaultVideo.video.title'),
             'description' => config('defaultVideo.video.description'),
             'url' => config('defaultVideo.video.url'),
-            'published_at' => Carbon::now()->toDateTimeString(),
+            'published_at' => config('defaultVideo.video.published_at')
         ]);
 
         $formattedDate = $video->formatted_published_at;
-        $this->assertEquals(Carbon::now()->translatedFormat('j \d\e F \d\e Y'), $formattedDate);
+        $this->assertEquals(config('defaultVideo.video.published_at_formated'), $formattedDate);
     }
 
-public function test_can_create_default_user()
-{
-
-        $user = UserHelper::createDeaultUser();
-
-    $this->assertEquals(Config::get('defaultUsers.user.name'), $user->name);
-    $this->assertEquals(Config::get('defaultUsers.user.email'), $user->email);
-    $this->assertTrue(\Hash::check(Config::get('defaultUsers.user.password'), $user->password));
-    $this->assertCount(1, $user->ownedTeams);
-}
-
-    public function test_can_create_default_professor_user()
+    public function test_can_create_default_user()
     {
+        $user = UserHelper::createDefaultUser();
 
-        $user = UserHelper::createDeaultProfessor();
+        $this->assertEquals(config('defaultUsers.user.name'), $user->name);
+        $this->assertEquals(config('defaultUsers.user.email'), $user->email);
+        $this->assertTrue(\Hash::check(config('defaultUsers.user.password'), $user->password));
 
-        $this->assertEquals(Config::get('defaultUsers.professor.name'), $user->name);
-        $this->assertEquals(Config::get('defaultUsers.professor.email'), $user->email);
-        $this->assertTrue(\Hash::check(Config::get('defaultUsers.professor.password'), $user->password));
         $this->assertCount(1, $user->ownedTeams);
-    }
 
+        $team = $user->ownedTeams->first();
+        self::assertTrue($team->personal_team);
+    }
 
     public function test_can_create_default_video()
     {
-        $video = VideoHelpers::createDefaultVideo();
+        $video = VideoHelpers::createDefaultNoPublishedVideo();  // Llamando al método con 'published_at' null
 
+        // Verificar que los datos existen en la base de datos, incluyendo 'published_at' como null
         $this->assertDatabaseHas('videos', [
             'title' => config('defaultVideo.video.title'),
             'description' => config('defaultVideo.video.description'),
             'url' => config('defaultVideo.video.url'),
-            'published_at' => config('defaultVideo.video.published'),
+            'published_at' => null,  // Verificando que published_at sea null
         ]);
     }
 

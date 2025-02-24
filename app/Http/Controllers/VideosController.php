@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Video;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tests\Feature\Videos\VideosTest;
 
@@ -24,15 +23,9 @@ class VideosController extends Controller
     }
     public function index()
     {
+        $videos = Video::all();
 
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
-        if (Auth::user()->can('video-manager') || Auth::user()->can('super-admin')) {
-            return view('videos.index');
-        }
-        abort(403);
+        return view('videos.index', compact('videos'));
     }
 
 }
