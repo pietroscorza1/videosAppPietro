@@ -51,11 +51,11 @@ class DatabaseSeeder extends Seeder
         if ($manager) {
             $manager->assignRole('video_manager');
         }
+        UserHelper::create_regular_user();
 
         VideoHelpers::createSecondDefaultVideo();
         VideoHelpers::createDefaultNoPublishedVideo();
         VideoHelpers::createDefaultVideo();
 
-        UserHelper::create_regular_user();
     }
 }

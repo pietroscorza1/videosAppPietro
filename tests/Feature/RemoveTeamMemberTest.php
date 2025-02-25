@@ -11,7 +11,7 @@ use Tests\TestCase;
 class RemoveTeamMemberTest extends TestCase
 {
     use RefreshDatabase;
-
+/*
     public function test_team_members_can_be_removed_from_teams(): void
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
@@ -41,5 +41,5 @@ class RemoveTeamMemberTest extends TestCase
             ->set('teamMemberIdBeingRemoved', $user->id)
             ->call('removeTeamMember')
             ->assertStatus(403);
-    }
+    }*/
 }

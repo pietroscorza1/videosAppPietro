@@ -23,7 +23,6 @@ class UserHelper {
         self::add_personal_team($user);
         return $user;
     }
-
     public static function createDefaultProfessor()
     {
         $professor = User::create([
@@ -36,7 +35,6 @@ class UserHelper {
         self::add_personal_team($professor);
         return $professor;
     }
-
     public static function add_personal_team($user)
     {
         return Team::forceCreate([
@@ -45,7 +43,6 @@ class UserHelper {
             'personal_team' => true,
         ]);
     }
-
     public static function create_regular_user(): User {
          return User::create([
             'name' => 'Regular User',
@@ -53,7 +50,6 @@ class UserHelper {
             'password' => Hash::make('123456789'),
         ]);
     }
-
     public static function create_video_manager_user(): User {
         return User::create([
             'name' => 'Video Manager',
@@ -61,7 +57,6 @@ class UserHelper {
             'password' => Hash::make('123456789'),
         ]);
     }
-
     public static function create_superadmin_user(): User {
         return User::create([
             'name' => 'Super Admin',

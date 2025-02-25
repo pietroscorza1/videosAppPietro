@@ -29,7 +29,7 @@ class VideosManagerController extends Controller
         $validatedData['published_at'] = now();
 
         $video = Video::create($validatedData);
-        return redirect()->route('videos.manage.show', $video->id);
+        return redirect()->route('videos.show', $video->id);
     }
 
     public function edit($id)

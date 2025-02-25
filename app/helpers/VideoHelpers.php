@@ -15,7 +15,6 @@ class VideoHelpers {
             'series_id' => null,
         ]);
     }
-
     public static function createSecondDefaultVideo(): Video
     {
         return Video::create([
@@ -27,7 +26,6 @@ class VideoHelpers {
             'series_id' => null,
         ]);
     }
-
     public static function createDefaultNoPublishedVideo(): Video
     {
         return Video::create([
