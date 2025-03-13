@@ -19,14 +19,16 @@ class VideosTest extends TestCase
         // Create roles
         Permission::firstOrCreate(['name' => 'video_manager']);
         Permission::firstOrCreate(['name' => 'super_admin']);
+        $user = UserHelper::create_video_manager_user();
+        $this->id = $user->id;
 
-        $videoDefault = VideoHelpers::createDefaultVideo();
+        $videoDefault = VideoHelpers::createDefaultVideo($user->id);
     }
 
 
     public function test_users_can_view_videos()
     {
-        $video = VideoHelpers::createDefaultVideo();
+        $video = VideoHelpers::createDefaultVideo($this->id);
 
         $response = $this->get(route('videos.show', $video->id));
 

@@ -45,6 +45,7 @@
                                 </a>
                             </li>
                         @endcan
+
                     @else
                         <li>
                             <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -52,6 +53,11 @@
                             </a>
                         </li>
                     @endauth
+                    <li>
+                        <a href="{{ route('users.manage.index') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Users
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>

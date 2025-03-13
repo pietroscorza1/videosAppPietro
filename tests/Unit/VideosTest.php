@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Feature\Videos;
 
+use App\helpers\UserHelper;
 use App\helpers\VideoHelpers;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -8,10 +9,21 @@ use Tests\TestCase;
 class VideosTest extends TestCase
 {
     use RefreshDatabase;
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $user = UserHelper::create_video_manager_user();
+        $this->id = $user->id;
+    }
+
+    public function assetTrue()
+    {
+        $this->assertTrue(true);
+    }
 
     public function test_can_get_formatted_published_at_date()
     {
-        $video = VideoHelpers::createDefaultVideo();
+        $video = VideoHelpers::createDefaultVideo($this->id);
 
         $formattedDate = $video->formatted_published_at;
 
@@ -20,7 +32,7 @@ class VideosTest extends TestCase
 
     public function test_can_get_formatted_published_at_date_when_not_published()
     {
-        $video = VideoHelpers::createDefaultNoPublishedVideo();
+        $video = VideoHelpers::createDefaultNoPublishedVideo($this->id);
 
         $formattedDate = $video->formatted_published_at;
 

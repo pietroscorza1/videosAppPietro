@@ -20,7 +20,6 @@ class VideosManageControllerTest extends TestCase
         Permission::firstOrCreate(['name' => 'video_manager']);
         Permission::firstOrCreate(['name' => 'super_admin']);
 
-        $videoDefault = VideoHelpers::createDefaultVideo();
     }
 
 
@@ -151,7 +150,7 @@ class VideosManageControllerTest extends TestCase
         $user->givePermissionTo('video_manager');
         $this->actingAs($user);
 
-        $video = VideoHelpers::createDefaultVideo();
+        $video = VideoHelpers::createDefaultVideo($user->id);
 
         $response = $this->delete(route('videos.manage.destroy', $video->id));
 
@@ -163,7 +162,7 @@ class VideosManageControllerTest extends TestCase
         $user = UserHelper::create_regular_user();
         $this->actingAs($user);
 
-        $video = VideoHelpers::createDefaultVideo();
+        $video = VideoHelpers::createDefaultVideo($user->id);
 
         $response = $this->delete(route('videos.manage.destroy', $video->id));
 
@@ -176,7 +175,7 @@ class VideosManageControllerTest extends TestCase
         $user->givePermissionTo('video_manager');
         $this->actingAs($user);
 
-        $video = VideoHelpers::createDefaultVideo();
+        $video = VideoHelpers::createDefaultVideo($user->id);
 
         $response = $this->get(route('videos.manage.edit', $video->id));
 
@@ -188,7 +187,7 @@ class VideosManageControllerTest extends TestCase
         $user = UserHelper::create_regular_user();
         $this->actingAs($user);
 
-        $video = VideoHelpers::createDefaultVideo();
+        $video = VideoHelpers::createDefaultVideo($user->id);
 
         $response = $this->get(route('videos.manage.edit', $video->id));
 
@@ -201,7 +200,7 @@ class VideosManageControllerTest extends TestCase
         $user->givePermissionTo('video_manager');
         $this->actingAs($user);
 
-        $video = VideoHelpers::createDefaultVideo();
+        $video = VideoHelpers::createDefaultVideo($user->id);
 
         $response = $this->put(route('videos.manage.update', $video->id), [
             'title' => 'Updated Title',
@@ -217,7 +216,7 @@ class VideosManageControllerTest extends TestCase
         $user = UserHelper::create_regular_user();
         $this->actingAs($user);
 
-        $video = VideoHelpers::createDefaultVideo();
+        $video = VideoHelpers::createDefaultVideo($user->id);
 
         $response = $this->put(route('videos.manage.update', $video->id), [
             'title' => 'Updated Title',

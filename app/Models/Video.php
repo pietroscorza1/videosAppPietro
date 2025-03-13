@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class Video extends Model
 {
-    /** @use HasFactory<\Database\Factories\VideoFactory> */
+    /** @use HasFactory<\Database\Fatories\VideoFactory> */
     use HasFactory;
     protected $dates = ['published_at'];
 
@@ -18,8 +18,14 @@ class Video extends Model
         'url',
         'published_at',
         'next',
-        'series_id'
+        'series_id',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function nextVideo()
     {
         return $this->belongsTo(Video::class, 'next');

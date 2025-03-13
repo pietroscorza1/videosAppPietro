@@ -17,7 +17,7 @@ class UserHelper {
             'name' => config('defaultUsers.user.name'),
             'email' => config('defaultUsers.user.email'),
             'password' => Hash::make(config('defaultUsers.user.password')),
-            'super_admin' => true,
+            'super_admin' => false,
         ]);
 
         self::add_personal_team($user);
@@ -29,7 +29,7 @@ class UserHelper {
             'name' => config('defaultUsers.professor.name'),
             'email' => config('defaultUsers.professor.email'),
             'password' => Hash::make(config('defaultUsers.professor.password')),
-            'super_admin' => true,
+            'super_admin' => false,
         ]);
 
         self::add_personal_team($professor);
@@ -44,26 +44,36 @@ class UserHelper {
         ]);
     }
     public static function create_regular_user(): User {
-         return User::create([
+         $user =  User::create([
             'name' => 'Regular User',
             'email' => 'regular@videosapp.com',
             'password' => Hash::make('123456789'),
         ]);
+         self::add_personal_team($user);
+         return $user;
+
     }
     public static function create_video_manager_user(): User {
-        return User::create([
+        $user = User::create([
             'name' => 'Video Manager',
             'email' => 'videosmanager@videosapp.com',
             'password' => Hash::make('123456789'),
         ]);
+
+        self::add_personal_team($user);
+        return $user;
+
     }
     public static function create_superadmin_user(): User {
-        return User::create([
+        $user = User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin@videosapp.com',
             'password' => Hash::make('123456789'),
             'super_admin' => true,
         ]);
+        self::add_personal_team($user);
+        return $user;
+
     }
 
 

@@ -14,7 +14,8 @@ use RefreshDatabase;
 
     public function test_can_create_default_video_and_check_date_formatting()
     {
-        $video = VideoHelpers::createDefaultVideo();
+        $user = UserHelper::createDefaultUser();
+        $video = VideoHelpers::createDefaultVideo($user->id);
 
         $this->assertDatabaseHas('videos', [
             'title' => config('defaultVideo.video.title'),
@@ -43,7 +44,9 @@ use RefreshDatabase;
 
     public function test_can_create_default_video()
     {
-        $video = VideoHelpers::createDefaultNoPublishedVideo();  // Llamando al método con 'published_at' null
+        $user = UserHelper::createDefaultUser();
+
+        $video = VideoHelpers::createDefaultNoPublishedVideo($user->id);  // Llamando al método con 'published_at' null
 
         // Verificar que los datos existen en la base de datos, incluyendo 'published_at' como null
         $this->assertDatabaseHas('videos', [

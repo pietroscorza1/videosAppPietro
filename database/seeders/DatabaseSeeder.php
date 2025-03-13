@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\helpers\UserHelper;
 use App\helpers\VideoHelpers;
+use App\Models\Multimedia;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -21,8 +22,8 @@ class DatabaseSeeder extends Seeder
 
         User::truncate();
         Video::truncate();
-        Permission::truncate();
-        Role::truncate();
+        Permission::query()->delete();
+        Role::query()->delete();
 
         $permissions = [
             'super_admin',
@@ -30,10 +31,9 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($permissions as $perm) {
-            if (!Permission::where('name', $perm)->exists()) {
-                Permission::create(['name' => $perm]);
-            }
+            Permission::firstOrCreate(['name' => $perm, 'guard_name' => 'web']);
         }
+
 
         $adminRole = Role::firstOrCreate(['name' => 'super_admin']);
         $videoManagerRole = Role::firstOrCreate(['name' => 'video_manager']);
@@ -53,9 +53,11 @@ class DatabaseSeeder extends Seeder
         }
         UserHelper::create_regular_user();
 
-        VideoHelpers::createSecondDefaultVideo();
-        VideoHelpers::createDefaultNoPublishedVideo();
-        VideoHelpers::createDefaultVideo();
+        $id = $manager->id;
+
+        VideoHelpers::createSecondDefaultVideo($id);
+        VideoHelpers::createDefaultNoPublishedVideo($id);
+        VideoHelpers::createDefaultVideo($id);
 
     }
 }
