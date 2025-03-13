@@ -22,13 +22,13 @@ class UserTest extends TestCase
     }
     public function test_user_without_permissions_can_see_default_users_page()
     {
-        $response = $this->actingAs($this->userRegular)->get(route('users.manage.index'));
+        $response = $this->actingAs($this->userRegular)->get(route('users.index'));
         $response->assertStatus(200);
     }
 
     public function test_user_with_permissions_can_see_default_users_page()
     {
-        $response = $this->actingAs($this->userAdmin)->get(route('users.manage.index'));
+        $response = $this->actingAs($this->userAdmin)->get(route('users.index'));
         $response->assertStatus(200);
     }
 
@@ -46,7 +46,7 @@ class UserTest extends TestCase
 
     public function test_user_with_permissions_can_see_user_show_page()
     {
-        $response = $this->actingAs($this->userAdmin)->get(route('users.manage.index'));
+        $response = $this->actingAs($this->userAdmin)->get(route('users.index'));
         $response->assertStatus(200);
     }
 

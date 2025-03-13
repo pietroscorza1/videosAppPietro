@@ -44,6 +44,15 @@
                                     Manage Videos
                                 </a>
                             </li>
+                            @can('super_admin')
+
+                            <li>
+                                <a href="{{ route('users.manage.index') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Manage Users
+                                </a>
+                            </li>
+                            @endcan
+
                         @endcan
 
                     @else
@@ -52,9 +61,10 @@
                                 Iniciar sesión
                             </a>
                         </li>
+
                     @endauth
                     <li>
-                        <a href="{{ route('users.manage.index') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('users.index') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Users
                         </a>
                     </li>

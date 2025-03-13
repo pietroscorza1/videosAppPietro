@@ -26,25 +26,23 @@ Route::middleware([
         Route::delete('/manage/{id}', [VideosManagerController::class, 'destroy'])->name('videos.manage.destroy');
     });
 });
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     Route::middleware(['auth'])->group(function () {
-        Route::get('/users/manage', [UserController::class, 'index'])->name('users.manage.index');
+        Route::get('/allusers', [UserController::class, 'index'])->name('users.index');
         Route::get('/showuser/{id}', [UserController::class, 'show'])->name('users.show');
     });
 });
-
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     Route::middleware(['auth', 'can:super_admin'])->group(function () {
+        Route::get('/users/manage', [UserManagerController::class, 'index'])->name('users.manage.index');
         Route::get('/users/manage/create', [UserManagerController::class, 'create'])->name('users.manage.create');
         Route::post('/users/manage', [UserManagerController::class, 'store'])->name('users.manage.store');
         Route::get('/users/manage/{id}/edit', [UserManagerController::class, 'edit'])->name('users.manage.edit');

@@ -10,7 +10,7 @@ class VideosManagerController extends Controller
 {
     public function index()
     {
-        $videos = Video::with('users')->get();
+        $videos = Video::all();
         return view('videos.manage.index', compact('videos'));
     }
 

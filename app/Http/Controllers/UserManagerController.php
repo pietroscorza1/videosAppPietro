@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 
 class UserManagerController extends Controller
 {
-
+    public function index()
+    {
+        $users = User::all();
+        return view('users.manage.index', compact('users'));
+    }
     public function create()
     {
         return view('users.manage.create');
